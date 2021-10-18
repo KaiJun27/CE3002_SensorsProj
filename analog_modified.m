@@ -2,7 +2,7 @@ clear all
 clc
 close all
 % analog input to A0
-comPort='COM7';
+comPort='COM5';
 s=serial(comPort);
 set(s,'DataBits',8);
 set(s,'StopBits',1);
@@ -13,6 +13,7 @@ a=1;
 storeTime =0;
 numPeak = 0;
 healthy = 1;
+threshold = 0;
 
 for l=1:10
     size = 0;
@@ -40,9 +41,10 @@ xlabel(['Time period = ' num2str(tp) 'seconds'])
 if(l ~= 1)
     storeTime = storeTime + tp;
     storePeak = findpeaks(sig);
+    threshold = max(storePeak) / 2;
     size = length(storePeak);
     for i=1:size
-       if(storePeak(i) < 0.6)
+       if(storePeak(i) < threshold)
            size = size - 1;
        end
     end

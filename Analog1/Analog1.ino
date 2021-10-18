@@ -1,4 +1,4 @@
-byte b;
+int b;
 
 void setup() {
   Serial.begin(1200);
