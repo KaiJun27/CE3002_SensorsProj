@@ -12,6 +12,7 @@ fopen(s)
 a=1;
 storeTime =0;
 numPeak = 0;
+healthy = 1;
 
 for l=1:10
     size = 0;
@@ -52,19 +53,22 @@ if(l ~= 1)
 end
 pause(0.01);
 end
-
-fclose(s);
-delete(s)
 disp('Done')
 heartRate = (numPeak/storeTime) * 60;
 disp('Your heart rate is ')
 disp(round(heartRate))
+healthy = 1;
 if(round(heartRate) < 60)
+    healthy = 0;
     disp('Lower than average resting heartrate!')
     if(round(heartRate) == 0)
        disp('Check connection to device') 
     end
 end
 if(round(heartRate) > 100)
+    healthy = 0;
     disp('Higher than average resting heartrate!')
 end
+fwrite(s,healthy);
+fclose(s);
+delete(s)
